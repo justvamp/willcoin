@@ -6,6 +6,7 @@ contract WillCoin {
 	mapping (address => uint) balances;
 	mapping (address => address) offsprings;
 	mapping (address => address[]) moneybags;
+	mapping (address => uint) lastActiveBlocks;
 
 	event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
@@ -19,6 +20,7 @@ contract WillCoin {
 		if (balances[msg.sender] < amount) return false;
 		balances[msg.sender] -= amount;
 		balances[receiver] += amount;
+		bringMeToLife();
 		emit Transfer(msg.sender, receiver, amount);
 		return true;
 	}
@@ -26,6 +28,7 @@ contract WillCoin {
 	function setOffspring(address addr) public {
 		offsprings[msg.sender] = addr;
 		moneybags[addr].push(msg.sender);
+		bringMeToLife();
 		emit OffspringSet(msg.sender, addr);
 	}
 
@@ -49,8 +52,13 @@ contract WillCoin {
 		sendCoin(offsprings[msg.sender], balances[msg.sender]);
 	}
 
-	//bringMeToLife
+	function bringMeToLife() public {
+		lastActiveBlocks[msg.sender] = block.number;
+	}
+
+	function getLastActiveBlock() public view returns(uint) {
+		return lastActiveBlocks[msg.sender];
+	}
 	//makeMeRich
-	//howLongToWait
 	//tellFortunes
 }

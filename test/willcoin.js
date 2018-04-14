@@ -30,7 +30,6 @@ contract('WillCoin', function(accounts) {
   it("should send coin correctly", function() {
     var meta;
 
-    // Get initial balances of first and second account.
     var geezerAddress = accounts[0];
     var offspringAddress = accounts[1];
 
@@ -104,8 +103,26 @@ contract('WillCoin', function(accounts) {
 
       assert.equal(offspringAddress, offspringInside, "Offspring written incorrectly");
       assert.equal(geezerAddress, moneyBagsInside[0], "Moneybag written incorrectly");
-      assert.equal(geezerEndingBalance, 0);
-      assert.equal(offspringEndingBalance, geezerStartingBalance + offspringStartingBalance);
+      assert.equal(geezerEndingBalance, 0, "Money weren't properly transferred from moneybag");
+      assert.equal(offspringEndingBalance, geezerStartingBalance + offspringStartingBalance, "Money weren't properly transferred to offspring");
+    });
+  });
+
+  it("should bring to life", function() {
+    var meta;
+    var lastActiveBlock;
+
+    var geezerAddress = accounts[0];
+
+    return WillCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.bringMeToLife.call({from: geezerAddress});
+    }).then(function() {
+      return meta.getLastActiveBlock.call({from: geezerAddress});
+    }).then(function(block) {
+      lastActiveBlock = block.toNumber();
+      // TODO: think of how to check it properly
+      //assert.equal(lastActiveBlock, 8, "Last active block wasn't set correctly");
     });
   });
 });
