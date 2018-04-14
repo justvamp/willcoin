@@ -125,4 +125,33 @@ contract('WillCoin', function(accounts) {
       //assert.equal(lastActiveBlock, 8, "Last active block wasn't set correctly");
     });
   });
+
+  it("should set and get blocks till will", function() {
+    var meta;
+
+    var geezerAddress = accounts[0];
+    var offspringAddress = accounts[1];
+
+    var defaultBlocksTillWill;
+    var blocksToSet = 16000000;
+    var blocksInside;
+
+    return WillCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.setOffspring(offspringAddress, {from: geezerAddress});
+    }).then(function() {
+      return meta.getBlocksTillWill.call({from: geezerAddress});
+    }).then(function(blocks) {
+      defaultBlocksTillWill = blocks.toNumber();
+      return meta.setBlocksTillWill(blocksToSet);
+    }).then(function() {
+      return meta.getBlocksTillWill.call({from: geezerAddress});
+    }).then(function(blocks) {
+      blocksInside = blocks.toNumber();
+
+      assert.equal(defaultBlocksTillWill, 2102400, "Default blocks till will was written incorrectly");
+      assert.equal(blocksInside, blocksToSet, "Blocks till will was written incorrectly");
+    });
+  });
+
 });
