@@ -68,6 +68,7 @@ contract('WillCoin', function(accounts) {
     var offspringAddress = accounts[1];
 
     var offspringInside;
+    var moneyBagsInside;
 
     return WillCoin.deployed().then(function(instance) {
       meta = instance;
@@ -76,7 +77,11 @@ contract('WillCoin', function(accounts) {
       return meta.getOffspring.call(geezerAddress);
     }).then(function(offspring) {
       offspringInside = offspring;
+      return meta.getMoneyBags.call(offspringAddress);
+    }).then(function(moneybags) {
+      moneyBagsInside = moneybags;
       assert.equal(offspringAddress, offspringInside, "Offspring written incorrectly");
+      assert.equal(geezerAddress, moneyBagsInside[0], "Offspring written incorrectly");
     });
   });
 });

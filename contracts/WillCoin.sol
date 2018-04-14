@@ -5,6 +5,7 @@ import "./ConvertLib.sol";
 contract WillCoin {
 	mapping (address => uint) balances;
 	mapping (address => address) offsprings;
+	mapping (address => address[]) moneybags;
 
 	event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
@@ -24,6 +25,7 @@ contract WillCoin {
 
 	function setOffspring(address addr) public {
 		offsprings[msg.sender] = addr;
+		moneybags[addr].push(msg.sender);
 		emit OffspringSet(msg.sender, addr);
 	}
 
@@ -38,4 +40,13 @@ contract WillCoin {
 	function getOffspring(address addr) public view returns(address) {
 		return offsprings[addr];
 	}
+
+	function getMoneyBags(address addr) public view returns(address[]) {
+		return moneybags[addr];
+	}
+
+	//performLastWill
+	//makeMeRich
+	//howLongToWait
+	//tellFortunes
 }
