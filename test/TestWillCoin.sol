@@ -18,8 +18,10 @@ contract TestWillCoin {
     WillCoin meta = new WillCoin();
 
     uint expected = 10000;
-
     Assert.equal(meta.getBalance(tx.origin), expected, "Owner should have 10000 WillCoin initially");
+
+    uint expectedEth = 20000;
+    Assert.equal(meta.getBalanceInEth(tx.origin), expectedEth, "Owner should have 20000 WillCoin initially");
   }
 
 }
