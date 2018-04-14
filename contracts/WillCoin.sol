@@ -3,6 +3,11 @@ pragma solidity ^0.4.18;
 import "./ConvertLib.sol";
 
 contract WillCoin {
+	struct fortune {
+		address moneybag;
+		uint blocksRemaining;
+	}
+
 	mapping (address => uint) balances;
 	mapping (address => address) offsprings;
 	mapping (address => address[]) moneybags;
@@ -38,8 +43,8 @@ contract WillCoin {
 		blocksTillWill[msg.sender] = blocksNumber;
 	}
 
-	function getBlocksTillWill() public view returns(uint) {
-		return blocksTillWill[msg.sender];
+	function getBlocksTillWill(address addr) public view returns(uint) {
+		return blocksTillWill[addr];
 	}
 
 	function getBalanceInEth(address addr) public view returns(uint){
@@ -66,10 +71,9 @@ contract WillCoin {
 		lastActiveBlocks[msg.sender] = block.number;
 	}
 
-	function getLastActiveBlock() public view returns(uint) {
-		return lastActiveBlocks[msg.sender];
+	function getLastActiveBlock(address addr) public view returns(uint) {
+		return lastActiveBlocks[addr];
 	}
 
 	//makeMeRich
-	//tellFortunes
 }

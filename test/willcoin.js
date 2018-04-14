@@ -118,7 +118,7 @@ contract('WillCoin', function(accounts) {
       meta = instance;
       return meta.bringMeToLife.call({from: geezerAddress});
     }).then(function() {
-      return meta.getLastActiveBlock.call({from: geezerAddress});
+      return meta.getLastActiveBlock.call(geezerAddress);
     }).then(function(block) {
       lastActiveBlock = block.toNumber();
       // TODO: think of how to check it properly
@@ -140,12 +140,12 @@ contract('WillCoin', function(accounts) {
       meta = instance;
       return meta.setOffspring(offspringAddress, {from: geezerAddress});
     }).then(function() {
-      return meta.getBlocksTillWill.call({from: geezerAddress});
+      return meta.getBlocksTillWill.call(geezerAddress);
     }).then(function(blocks) {
       defaultBlocksTillWill = blocks.toNumber();
       return meta.setBlocksTillWill(blocksToSet);
     }).then(function() {
-      return meta.getBlocksTillWill.call({from: geezerAddress});
+      return meta.getBlocksTillWill.call(geezerAddress);
     }).then(function(blocks) {
       blocksInside = blocks.toNumber();
 
