@@ -9,24 +9,6 @@ contract('WillCoin', function(accounts) {
     });
   });
 
-  it("should call a function that depends on a linked library", function() {
-    var meta;
-    var willCoinBalance;
-    var willCoinEthBalance;
-
-    return WillCoin.deployed().then(function(instance) {
-      meta = instance;
-      return meta.getBalance.call(accounts[0]);
-    }).then(function(outCoinBalance) {
-      willCoinBalance = outCoinBalance.toNumber();
-      return meta.getBalanceInEth.call(accounts[0]);
-    }).then(function(outCoinBalanceEth) {
-      willCoinEthBalance = outCoinBalanceEth.toNumber();
-    }).then(function() {
-      assert.equal(willCoinEthBalance, 2 * willCoinBalance, "Library function returned unexpected function, linkage may be broken");
-    });
-  });
-
   it("should send coin correctly", function() {
     var meta;
 

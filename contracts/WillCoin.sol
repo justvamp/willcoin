@@ -1,7 +1,5 @@
 pragma solidity ^0.4.18;
 
-import "./ConvertLib.sol";
-
 contract WillCoin {
 
 	mapping (address => uint) balances;
@@ -45,10 +43,6 @@ contract WillCoin {
 
 	function getBlocksTillWill(address addr) public view returns(uint) {
 		return blocksTillWill[addr];
-	}
-
-	function getBalanceInEth(address addr) public view returns(uint){
-		return ConvertLib.convert(getBalance(addr), 2);
 	}
 
 	function getBalance(address addr) public view returns(uint) {
