@@ -20,8 +20,6 @@
         "test": "truffle.cmd test --reset --network dev",
         "migrate-testnet": "truffle.cmd migrate --reset --network testnet"
     },
-    "dependencies": {
-    },
-    "devDependencies": {
-    }
+    "dependencies": {},
+    "devDependencies": {}
 }
