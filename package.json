@@ -1,0 +1,20 @@
+{
+  "name": "willcoin-smart",
+  "version": "0.0.1",
+  "description": "Smart-Contract for WillCoin",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justvamp/willcoin-smart"
+  },
+  "author": "Igor Kosulin",
+  "license": "MIT",
+  "scripts": {
+      "compile": "truffle.cmd compile",
+      "migrate": "truffle.cmd migrate --reset --network dev",
+      "migrate-testnet": "truffle.cmd migrate --reset --network testnet"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
