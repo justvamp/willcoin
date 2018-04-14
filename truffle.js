@@ -9,7 +9,8 @@ module.exports = {
     testnet: {
       host: "localhost",
       port: 8545,
-      network_id: "*" // Match any network id
+      network_id: "*", // Match any network id
+      from: "0x0000000000..."
     }
   }
 };
