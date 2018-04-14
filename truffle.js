@@ -1,3 +1,4 @@
+// More options here: http://truffleframework.com/docs/advanced/configuration
 module.exports = {
   networks: {
     dev: {

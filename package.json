@@ -1,20 +1,27 @@
 {
-  "name": "willcoin-smart",
-  "version": "0.0.1",
-  "description": "Smart-Contract for WillCoin",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/justvamp/willcoin-smart"
-  },
-  "author": "Igor Kosulin",
-  "license": "MIT",
-  "scripts": {
-      "compile": "truffle.cmd compile",
-      "migrate": "truffle.cmd migrate --reset --network dev",
-      "migrate-testnet": "truffle.cmd migrate --reset --network testnet"
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
-  }
+    "name": "willcoin",
+    "version": "0.0.1",
+    "description": "WillCoin - the token that take care about your will",
+    "author": "Igor Kosulin <justvamp@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/justvamp/willcoin"
+    },
+    "keywords": [
+        "ethereum",
+        "token",
+        "willtoken",
+        "willcoin"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "compile": "truffle.cmd compile",
+        "migrate": "truffle.cmd migrate --reset --network dev",
+        "test": "truffle.cmd test --reset --network dev",
+        "migrate-testnet": "truffle.cmd migrate --reset --network testnet"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
 }

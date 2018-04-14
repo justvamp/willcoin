@@ -1,0 +1,13 @@
+{
+    "package_name": "WillCoin",
+    "description": "The token that take care about your will",
+    "authors": [
+        "Igor Kosulin <justvamp@gmail.com>"
+    ],
+    "keywords": [
+        "ethereum",
+        "token",
+        "willtoken",
+        "willcoin"
+    ]
+}
