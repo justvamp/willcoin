@@ -3,10 +3,6 @@ pragma solidity ^0.4.18;
 import "./ConvertLib.sol";
 
 contract WillCoin {
-	struct fortune {
-		address moneybag;
-		uint blocksRemaining;
-	}
 
 	mapping (address => uint) balances;
 	mapping (address => address) offsprings;
@@ -22,13 +18,17 @@ contract WillCoin {
 		balances[tx.origin] = 10000;
 	}
 
-	function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
-		if (balances[msg.sender] < amount) return false;
-		balances[msg.sender] -= amount;
-		balances[receiver] += amount;
-		bringMeToLife();
-		emit Transfer(msg.sender, receiver, amount);
+	function transferCoin(address from, address to, uint amount) private returns(bool sufficient) {
+		if (balances[from] < amount) return false;
+		balances[from] -= amount;
+		balances[to] += amount;
+		emit Transfer(from, to, amount);
 		return true;
+	}
+
+	function sendCoin(address receiver, uint amount) public returns(bool sufficient) {
+		bringMeToLife();
+		return transferCoin(msg.sender, receiver, amount);
 	}
 
 	function setOffspring(address addr) public {
@@ -63,6 +63,10 @@ contract WillCoin {
 		return moneybags[addr];
 	}
 
+	function getLastActiveBlock(address addr) public view returns(uint) {
+		return lastActiveBlocks[addr];
+	}
+
 	function performLastWill() public {
 		sendCoin(offsprings[msg.sender], balances[msg.sender]);
 	}
@@ -71,9 +75,10 @@ contract WillCoin {
 		lastActiveBlocks[msg.sender] = block.number;
 	}
 
-	function getLastActiveBlock(address addr) public view returns(uint) {
-		return lastActiveBlocks[addr];
+	function emptyMoneyBag(address moneybag) public returns(bool successful) {
+		if (offsprings[moneybag] == msg.sender && (block.number > lastActiveBlocks[moneybag] + blocksTillWill[moneybag])) {
+			return transferCoin(moneybag, msg.sender, balances[moneybag]);
+		}
+		return false;
 	}
-
-	//makeMeRich
 }

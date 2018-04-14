@@ -154,4 +154,122 @@ contract('WillCoin', function(accounts) {
     });
   });
 
+  it("it should empty moneybag", function() {
+    var meta;
+
+    var geezerAddress = accounts[0];
+    var offspringAddress = accounts[1];
+
+    var geezerStartingBalance;
+    var geezerEndingBalance;
+    var offspringStartingBalance;
+    var offspringEndingBalance;
+
+    var emptyResult;
+
+    return WillCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerStartingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringStartingBalance = balance.toNumber();
+      return meta.setOffspring(offspringAddress, {from: geezerAddress});
+    }).then(function() {
+      return meta.setBlocksTillWill(0); // some small amount
+    }).then(function() {
+      return meta.emptyMoneyBag(geezerAddress, {from: offspringAddress});
+    }).then(function() {
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerEndingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringEndingBalance = balance.toNumber();
+
+      assert.equal(geezerEndingBalance, 0, "Money weren't properly emptied from moneybag");
+      assert.equal(offspringEndingBalance, geezerStartingBalance + offspringStartingBalance, "Money weren't properly emptied to offspring");
+    });
+  });
+
+  it("it should not empty moneybag because it's too early", function() {
+    var meta;
+
+    var geezerAddress = accounts[0];
+    var offspringAddress = accounts[1];
+
+    var geezerStartingBalance;
+    var geezerEndingBalance;
+    var offspringStartingBalance;
+    var offspringEndingBalance;
+
+    var emptyResult;
+
+    return WillCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerStartingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringStartingBalance = balance.toNumber();
+      return meta.setOffspring(offspringAddress, {from: geezerAddress});
+    }).then(function() {
+      return meta.setBlocksTillWill(1000); // some big amount
+    }).then(function() {
+      return meta.emptyMoneyBag(geezerAddress, {from: offspringAddress});
+    }).then(function() {
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerEndingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringEndingBalance = balance.toNumber();
+
+      assert.equal(geezerEndingBalance, geezerStartingBalance, "Moneybag's money weren't left as they should be");
+      assert.equal(offspringEndingBalance, offspringStartingBalance, "Offspring's money weren't left as they should be");
+    });
+  });
+
+  it("it should not empty moneybag because of wrong emptier", function() {
+    var meta;
+
+    var geezerAddress = accounts[0];
+    var offspringAddress = accounts[1];
+    var emptierAddress = accounts[2];
+
+    var geezerStartingBalance;
+    var geezerEndingBalance;
+    var offspringStartingBalance;
+    var offspringEndingBalance;
+
+    var emptyResult;
+
+    return WillCoin.deployed().then(function(instance) {
+      meta = instance;
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerStartingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringStartingBalance = balance.toNumber();
+      return meta.setOffspring(offspringAddress, {from: geezerAddress});
+    }).then(function() {
+      return meta.setBlocksTillWill(0); // some small amount
+    }).then(function() {
+      return meta.emptyMoneyBag(geezerAddress, {from: emptierAddress}); // wrong emptier address (attack imitation)
+    }).then(function() {
+      return meta.getBalance.call(geezerAddress);
+    }).then(function(balance) {
+      geezerEndingBalance = balance.toNumber();
+      return meta.getBalance.call(offspringAddress);
+    }).then(function(balance) {
+      offspringEndingBalance = balance.toNumber();
+
+      assert.equal(geezerEndingBalance, geezerStartingBalance, "Moneybag's money weren't left as they should be");
+      assert.equal(offspringEndingBalance, offspringStartingBalance, "Offspring's money weren't left as they should be");
+    });
+  });
+
 });
