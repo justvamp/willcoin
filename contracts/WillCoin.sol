@@ -9,7 +9,7 @@ contract WillCoin {
 
 	event Transfer(address indexed _from, address indexed _to, uint256 _value);
 
-	event OffspringSet(address indexed _geezer, address indexed _offspring);
+	event OffspringSet(address indexed _moneybag, address indexed _offspring);
 
 	function WillCoin() public {
 		balances[tx.origin] = 10000;
@@ -45,7 +45,11 @@ contract WillCoin {
 		return moneybags[addr];
 	}
 
-	//performLastWill
+	function performLastWill() public {
+		sendCoin(offsprings[msg.sender], balances[msg.sender]);
+	}
+
+	//bringMeToLife
 	//makeMeRich
 	//howLongToWait
 	//tellFortunes
