@@ -1,5 +1,6 @@
 pragma solidity ^0.4.18;
 
+// TODO: default address to emptyMoneyBag
 contract WillCoin {
 
 	mapping (address => uint) balances;
